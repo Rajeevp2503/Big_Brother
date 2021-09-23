@@ -50,18 +50,71 @@ public class loginActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
-        progressDialog = new ProgressDialog(loginActivity.this);
-        progressDialog.setTitle("creating account");
-        progressDialog.setMessage("Wait....");
-
         auth = FirebaseAuth.getInstance();
         db  = FirebaseFirestore.getInstance();
+
+
+        progressDialogs();
         signInWithEmail();
         googlesignin();
         signup();
 
     }
+
+    private void progressDialogs() {
+        progressDialog = new ProgressDialog(loginActivity.this);
+        progressDialog.setTitle("Big Brother Login");
+        progressDialog.setMessage("Wait......");
+    }
+
+
+    private void signInWithEmail() {
+
+        binding.signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = binding.inemail.getText().toString().trim();
+                password = binding.inpassword.getText().toString();
+                // checking for empty email
+                if (email.isEmpty()) {
+                    binding.inemail.setError("Email is required");
+                    binding.inemail.requestFocus();
+                    return;
+                }
+                // for valid email
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.inemail.setError("Email is invalid");
+                    binding.inemail.requestFocus();
+                    return;
+                }
+                // then authenticate it via email and password
+
+                authenticationWithEmailAndPassword();
+
+            }
+        });
+    }
+    private void authenticationWithEmailAndPassword() {
+        progressDialog.show();
+        auth = FirebaseAuth.getInstance();
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "successfully Login", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(loginActivity.this, MainActivity.class));
+                        } else {
+                            Log.w("rajj", "createUserWithEmail:failure", task.getException());
+                            Log.e("rajeeev", "authorization nahi  hai sign in with email ");
+                        }
+
+                    }
+                });
+    }
+
+
 
     private void signup() {
         binding.signup.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +137,7 @@ public class loginActivity extends AppCompatActivity {
                         .build();
 
                 mGoogleSignInClient = GoogleSignIn.getClient(loginActivity.this, gso);
+                progressDialog.show();
 
                 // calling sign in for intent and getting result from intent
                 signIn();
@@ -125,6 +179,7 @@ public class loginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
@@ -156,50 +211,6 @@ public class loginActivity extends AppCompatActivity {
     }
 
 
-    private void signInWithEmail() {
 
-        binding.signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                email = binding.inemail.getText().toString().trim();
-                password = binding.inpassword.getText().toString();
-                // checking for empty email
-                if (email.isEmpty()) {
-                    binding.inemail.setError("Email is required");
-                    binding.inemail.requestFocus();
-                    return;
-                }
-                // for valid email
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    binding.inemail.setError("Email is invalid");
-                    binding.inemail.requestFocus();
-                    return;
-                }
-                // then authenticate it via email and password
-                progressDialog.show();
-                authenticationWithEmailAndPassword();
-
-            }
-        });
-    }
-
-    private void authenticationWithEmailAndPassword() {
-        auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "successfully Login", Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(loginActivity.this, MainActivity.class));
-                        } else {
-                            Log.w("rajj", "createUserWithEmail:failure", task.getException());
-                            Log.e("rajeeev", "authorization nahi  hai sign in with email ");
-                        }
-
-                    }
-                });
-    }
 }
 

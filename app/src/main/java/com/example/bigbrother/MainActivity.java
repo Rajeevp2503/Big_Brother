@@ -3,9 +3,11 @@ package com.example.bigbrother;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.util.Log;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.example.bigbrother.databinding.ActivityLoginBinding;
@@ -32,10 +34,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setviews();
+        logout();
 
 
 
 
+    }
+
+    private void logout() {
+        binding.logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth = FirebaseAuth.getInstance();
+                auth.signOut();
+                Intent intent = new Intent(MainActivity.this, loginActivity.class);
+                // for clearing tasks
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void setviews() {

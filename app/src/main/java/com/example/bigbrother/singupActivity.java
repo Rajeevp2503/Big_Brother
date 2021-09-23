@@ -42,8 +42,9 @@ public class singupActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(singupActivity.this);
         progressDialog.setTitle("creating account");
         progressDialog.setMessage("Loading.....");
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+
+
+
         singUpWithEmail();
     }
 
@@ -77,21 +78,23 @@ public class singupActivity extends AppCompatActivity {
 
     private void authenticationWithEmailAndPassword() {
         progressDialog.show();
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         //now main authentication will be done
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(singupActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressDialog.dismiss();
+
                         if (task.isSuccessful()) {
                             Log.e("raj", "authorization ho gaya hai");
                             // taking uid refreence in string id
                             String id = task.getResult().getUser().getUid();
                             // creating object of user and storing user in fire store
-                           User u1 = new User(name, email, password);
+                            User u1 = new User(name, email, password);
                             db.collection("Users").document(id).set(u1);
-
+                            progressDialog.dismiss();
                             Intent i = new Intent(singupActivity.this,MainActivity.class);
                             i.putExtra("name",name);
                             startActivity(i);
@@ -102,6 +105,7 @@ public class singupActivity extends AppCompatActivity {
                             Log.e("raje", "authorization nahi hai");
 
                             Toast.makeText(getApplicationContext(), "ERRRRRORR", Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
                         }
                     }
     });
