@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "704309249131",
+    "project_id": "big-brother-26594",
+    "storage_bucket": "big-brother-26594.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704309249131:android:bdc66a66414e6f3d7e5d2e",
+        "android_client_info": {
+          "package_name": "com.example.bigbrother"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704309249131-oel3mu83q3v75b061lhmgmtfggpkvdbu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCReEXRqFY4UgNQFUf8EYJszK-Lw9IkTuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704309249131-oel3mu83q3v75b061lhmgmtfggpkvdbu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
