@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "704309249131-l6al39atdgfb1256tdt6c6gquiorptj7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bigbrother",
+            "certificate_hash": "988c3b6f453df847fa6c576b5ab4d7e7193daa7e"
+          }
+        },
+        {
           "client_id": "704309249131-oel3mu83q3v75b061lhmgmtfggpkvdbu.apps.googleusercontent.com",
           "client_type": 3
         }
