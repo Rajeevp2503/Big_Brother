@@ -36,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
         setviews();
         logout();
 
-
-
-
     }
 
     private void logout() {
